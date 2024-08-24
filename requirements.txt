@@ -1,10 +1,7 @@
 ﻿flask
 requests
 pyngrok
-openai
+google-generativeai
+gunicorn
 wfastcgi
-pyrebase4
 setuptools
-pandas
-
-# see if there's any library that is not needed
