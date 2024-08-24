@@ -46,7 +46,7 @@ def generate_answer(chat_id, question):
         return "Something went wrong generating the response"
 
 def generate_image_answer(image_path):
-    image = PIL.Image.open(image_path)
+    image = Image.open(image_path)
     prompt = "Give me a slightly naughty compliment based on this image"
     response = model.generate_content([prompt, image])
     return response.text
