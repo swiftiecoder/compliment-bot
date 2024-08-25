@@ -46,7 +46,7 @@ def generate_answer(chat_id, question):
         return "Something went wrong generating the response"
 
 def generate_image_answer(chat_id, image):
-    prompt = "Give me a slightly naughty compliment based on this image"
+    prompt = "Give me a compliment based on this image"
     # response = model.generate_content([prompt, image])
     # return response.text
     try:
