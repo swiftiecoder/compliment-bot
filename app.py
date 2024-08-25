@@ -11,7 +11,7 @@ app = Flask(__name__)
 telegram_bot_token = os.environ.get('BOT_TOKEN')
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-1.0-pro')
+model = genai.GenerativeModel('models/gemini-1.5-flash', system_instruction="You are a chatbot which gives compliments on images and respond to text messages.")
 chats = {}
 last_prompt = 'Empty'
 
