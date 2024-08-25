@@ -45,8 +45,7 @@ def generate_answer(chat_id, question):
     except:
         return "Something went wrong generating the response"
 
-def generate_image_answer(image_path):
-    image = Image.open(image_path)
+def generate_image_answer(image):
     prompt = "Give me a slightly naughty compliment based on this image"
     response = model.generate_content([prompt, image])
     return response.text
@@ -85,8 +84,9 @@ def index():
         chat_id, incoming_que, image = message_parser(msg)
         if chat_id != -1:
             if image is not None:
-                # answer = generate_image_answer(chat_id, image)
-                send_message_telegram(chat_id, "You attached an image, but I can't process it yet :(")
+                answer = generate_image_answer(image)
+                # send_message_telegram(chat_id, "You attached an image, but I can't process it yet :(")
+                send_message_telegram(chat_id, answer)
             elif incoming_que.strip() == '/start':
                 create_chat(chat_id)
                 start_msg = "Hi there!"
