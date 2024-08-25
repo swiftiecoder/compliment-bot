@@ -55,7 +55,7 @@ def message_parser(message):
     try:
         chat_id = message['message']['chat']['id']
         if 'photo' in message['message']:
-            photo = message['message']['photo'][-1]  # Get the highest resolution photo
+            photo = message['message']['photo'][-1]
             file_id = photo['file_id']
             file_info = requests.get(f'https://api.telegram.org/bot{telegram_bot_token}/getFile?file_id={file_id}').json()
             file_path = file_info['result']['file_path']
@@ -85,14 +85,14 @@ def index():
         chat_id, incoming_que, image = message_parser(msg)
         if chat_id != -1:
             if image is not None:
-                answer = generate_image_answer(chat_id, image)
-                send_message_telegram(chat_id, answer)
+                # answer = generate_image_answer(chat_id, image)
+                send_message_telegram(chat_id, "You attached an image, but I can't process it yet :(")
             elif incoming_que.strip() == '/start':
                 create_chat(chat_id)
                 start_msg = "Hi there!"
                 send_message_telegram(chat_id, start_msg)
             elif incoming_que == '__NONE__':
-                send_message_telegram(chat_id, 'Sorry, I can only interact with text right now :(')
+                send_message_telegram(chat_id, 'Sorry, I can only interact with text and images right now :(')
             else:
                 answer = generate_answer(chat_id, incoming_que)
                 send_message_telegram(chat_id, answer)
