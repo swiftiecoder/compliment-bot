@@ -45,10 +45,23 @@ def generate_answer(chat_id, question):
     except:
         return "Something went wrong generating the response"
 
-def generate_image_answer(image):
+def generate_image_answer(chat_id, image):
     prompt = "Give me a slightly naughty compliment based on this image"
-    response = model.generate_content([prompt, image])
-    return response.text
+    # response = model.generate_content([prompt, image])
+    # return response.text
+    try:
+        if not chat_exists(chat_id):
+            create_chat(chat_id)
+        response = chats[chat_id].send_message([prompt, image], safety_settings={
+        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        })
+        print(response)
+        return response.text
+    except:
+        return "Something went wrong generating the response"
 
 def message_parser(message):
     try:
@@ -84,7 +97,7 @@ def index():
         chat_id, incoming_que, image = message_parser(msg)
         if chat_id != -1:
             if image is not None:
-                answer = generate_image_answer(image)
+                answer = generate_image_answer(chat_id, image)
                 # send_message_telegram(chat_id, "You attached an image, but I can't process it yet :(")
                 send_message_telegram(chat_id, answer)
             elif incoming_que.strip() == '/start':
